@@ -1,6 +1,7 @@
 package com.proscan.ai;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -80,6 +81,9 @@ public class MainActivity extends Activity {
         buttons2.addView(secondaryButton("Export PDF", new View.OnClickListener() {
             @Override public void onClick(View v) { exportPdf(); }
         }));
+        buttons2.addView(secondaryButton("ID Sheet", new View.OnClickListener() {
+            @Override public void onClick(View v) { exportIdSheet(); }
+        }));
         buttons2.addView(secondaryButton("Save Session", new View.OnClickListener() {
             @Override public void onClick(View v) { saveSession(); }
         }));
@@ -101,7 +105,7 @@ public class MainActivity extends Activity {
         root.addView(savedHolder);
 
         TextView note = new TextView(this);
-        note.setText("Note: this rescue build focuses on capture, crop, filters, session saving, and PDF export.");
+        note.setText("Note: this rescue build now includes A4 ID-card sheet export with 2x2, 2x3, and 3x3 layouts.");
         note.setTextColor(Color.parseColor("#9FB0C8"));
         note.setPadding(0, 24, 0, 0);
         root.addView(note);
@@ -302,6 +306,11 @@ public class MainActivity extends Activity {
                     sharePdf(item.name, item.pages);
                 }
             }));
+            row.addView(smallButton("ID Sheet", new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    openIdSheetPicker(item.name, item.pages);
+                }
+            }));
             row.addView(smallButton("Delete", new View.OnClickListener() {
                 @Override public void onClick(View v) {
                     AppStorage.deleteSession(item.dir);
@@ -384,6 +393,32 @@ public class MainActivity extends Activity {
         sharePdf(nameInput.getText().toString().trim(), session.pages);
     }
 
+    private void exportIdSheet() {
+        openIdSheetPicker(nameInput.getText().toString().trim(), session.pages);
+    }
+
+    private void openIdSheetPicker(final String title, final java.util.List<String> pages) {
+        if (pages == null || pages.isEmpty()) {
+            toast("Add at least one ID card page first");
+            return;
+        }
+        final CharSequence[] labels = new CharSequence[IdCardSheetComposer.LAYOUTS.length];
+        for (int i = 0; i < IdCardSheetComposer.LAYOUTS.length; i++) {
+            labels[i] = IdCardSheetComposer.LAYOUTS[i].label;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle("Print multiple ID cards on one A4 page")
+                .setItems(labels, new android.content.DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(android.content.DialogInterface dialog, int which) {
+                        IdCardSheetComposer.LayoutOption option = IdCardSheetComposer.LAYOUTS[which];
+                        shareIdSheet(title, pages, option.columns, option.rows);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
     private void sharePdf(String title, java.util.List<String> pages) {
         if (pages.isEmpty()) {
             toast("Add at least one page first");
@@ -400,6 +435,25 @@ public class MainActivity extends Activity {
             startActivity(Intent.createChooser(send, "Share PDF"));
         } catch (Exception e) {
             toast("PDF export failed: " + e.getMessage());
+        }
+    }
+
+    private void shareIdSheet(String title, java.util.List<String> pages, int columns, int rows) {
+        if (pages.isEmpty()) {
+            toast("Add at least one ID card page first");
+            return;
+        }
+        try {
+            File pdf = IdCardSheetComposer.exportPdf(this, title, pages, columns, rows);
+            Uri uri = LocalFileProvider.uriForFile(this, pdf);
+            Intent send = new Intent(Intent.ACTION_SEND);
+            send.setType("application/pdf");
+            send.putExtra(Intent.EXTRA_STREAM, uri);
+            send.putExtra(Intent.EXTRA_SUBJECT, title);
+            send.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(send, "Share ID Sheet PDF"));
+        } catch (Exception e) {
+            toast("ID Sheet export failed: " + e.getMessage());
         }
     }
 

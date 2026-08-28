@@ -24,8 +24,7 @@ flutter pub get
 flutter build apk --release
 ```
 
-Every push to `arena/01a047c5-arenascan` runs `.github/workflows/build-apk.yml`, uploads the APK as an artifact, and updates the GitHub release tagged `latest-apk`.
-
+In this Arena session the GitHub token could not update workflow files, so the repository includes a self-contained native rescue build path instead.
 
 ## Rescue APK in this repo
 
@@ -44,3 +43,4 @@ This APK supports:
 - multi-page session management
 - save sessions locally
 - export/share PDF
+- print multiple ID cards on A4 sheets with 2x2, 2x3, and 3x3 layouts
