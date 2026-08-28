@@ -21,3 +21,8 @@ android/local.properties
 android/app/debug/
 android/app/profile/
 android/app/release/
+
+# Local rescue APK build tools
+.build_tools/
+native_apk/build/
+*.idsig

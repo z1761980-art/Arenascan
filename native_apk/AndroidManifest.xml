@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.proscan.ai">
+
+    <application
+        android:label="ProScan AI"
+        android:icon="@android:drawable/sym_def_app_icon">
+        <provider
+            android:name=".LocalFileProvider"
+            android:authorities="com.proscan.ai.files"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+
+        <activity
+            android:name=".EditorActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

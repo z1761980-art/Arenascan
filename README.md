@@ -25,3 +25,22 @@ flutter build apk --release
 ```
 
 Every push to `arena/01a047c5-arenascan` runs `.github/workflows/build-apk.yml`, uploads the APK as an artifact, and updates the GitHub release tagged `latest-apk`.
+
+
+## Rescue APK in this repo
+
+Because GitHub workflow updates are blocked for the current Arena bot token in this session, a self-contained native Android rescue build is included too.
+
+- Source: `native_apk/`
+- Build script: `scripts/build_rescue_apk.sh`
+- Downloadable APK committed to the repo: `apk/ProScanAI-rescue.apk`
+
+This APK supports:
+- capture from camera
+- import from gallery
+- 4-point crop handles
+- Magic / B&W / Gray filters
+- brightness / contrast / saturation adjustments
+- multi-page session management
+- save sessions locally
+- export/share PDF
