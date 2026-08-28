@@ -1,0 +1,23 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+build/
+coverage/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# macOS / misc
+.DS_Store
+*.log
+
+# Generated Android files kept out of repo
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
