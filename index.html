@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1220" />
+  <meta name="description" content="DukanPilot is a modern POS for Pakistani bike parts shops." />
+  <title>DukanPilot POS — Bike Parts Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="brand-copy"><strong>DukanPilot</strong><small>BIKE PARTS POS</small></div>
+      </div>
+
+      <div class="shop-switcher">
+        <div class="shop-avatar">NA</div>
+        <div class="shop-meta"><strong id="sidebarShopName">Naveed Auto Parts</strong><span>Lahore · Main shop</span></div>
+        <button class="icon-button subtle" data-action="shop-menu" aria-label="Switch shop"><span data-icon="chevrons"></span></button>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <p class="nav-label">WORKSPACE</p>
+        <button class="nav-item active" data-view="dashboard"><span data-icon="grid"></span><span>Overview</span></button>
+        <button class="nav-item" data-view="sale"><span data-icon="cart"></span><span>New sale</span><kbd>F2</kbd></button>
+        <button class="nav-item" data-view="products"><span data-icon="box"></span><span>Products</span><span class="nav-count" id="productNavCount">248</span></button>
+        <button class="nav-item" data-view="stock"><span data-icon="layers"></span><span>Stock control</span><span class="nav-dot"></span></button>
+        <button class="nav-item" data-view="customers"><span data-icon="users"></span><span>Customers</span></button>
+        <button class="nav-item" data-view="reports"><span data-icon="chart"></span><span>Reports</span></button>
+
+        <p class="nav-label nav-label-spaced">MANAGE</p>
+        <button class="nav-item seller-only" data-view="licenses"><span data-icon="key"></span><span>Licenses</span><span class="nav-lock"><span data-icon="shield"></span></span></button>
+        <button class="nav-item" data-view="settings"><span data-icon="settings"></span><span>Admin settings</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="license-mini" data-action="license-summary">
+          <div class="license-mini-top"><span class="status-dot"></span><span>Professional plan</span><span data-icon="arrow-up-right"></span></div>
+          <strong id="sidebarLicenseText">126 days left</strong>
+          <div class="progress-track"><span id="sidebarLicenseProgress"></span></div>
+          <small>Renews 02 Jan 2027</small>
+        </div>
+        <div class="user-block">
+          <div class="user-avatar">HA</div>
+          <div class="user-meta"><strong>Hassan Ali</strong><span>Seller / Owner</span></div>
+          <button class="icon-button subtle" data-action="user-menu" aria-label="Open user menu"><span data-icon="more"></span></button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-shell">
+      <header class="topbar">
+        <div class="topbar-leading">
+          <button class="mobile-menu icon-button" data-action="toggle-sidebar" aria-label="Open navigation"><span data-icon="menu"></span></button>
+          <div class="breadcrumbs"><span>Workspace</span><span class="breadcrumb-separator">/</span><strong id="pageBreadcrumb">Overview</strong></div>
+        </div>
+        <div class="topbar-actions">
+          <div class="global-search"><span data-icon="search"></span><input id="globalSearch" type="search" placeholder="Search anything" aria-label="Search anything" /><kbd>⌘ K</kbd></div>
+          <button class="icon-button notification-button" data-action="notifications" aria-label="Notifications"><span data-icon="bell"></span><i></i></button>
+          <div class="topbar-divider"></div>
+          <button class="profile-trigger" data-action="user-menu"><span class="user-avatar small">HA</span><span class="profile-name">Hassan Ali</span><span data-icon="chevron-down"></span></button>
+        </div>
+      </header>
+
+      <div id="pageContent" class="page-content"></div>
+    </main>
+  </div>
+
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+  <div id="modalRoot"></div>
+  <div id="commandPalette" class="command-palette hidden" role="dialog" aria-modal="true" aria-label="Quick actions"></div>
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>

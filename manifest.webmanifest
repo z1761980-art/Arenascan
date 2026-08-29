@@ -1,0 +1,11 @@
+{
+  "name": "DukanPilot POS",
+  "short_name": "DukanPilot",
+  "description": "A modern offline-friendly POS for Pakistani bike parts shops.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f8fb",
+  "theme_color": "#0b1220",
+  "lang": "en-PK",
+  "categories": ["business", "productivity", "finance"]
+}
